@@ -4,18 +4,34 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     username:{
         type:String,
+        minLength: 5,
+        required: true
     },
     name:{
-        type:String
+        type:String,
+        required: true
     },
     email:{
-        type: String
+        type: String,
+        required: true
     },
     address:{
-        type:String
+        type:String,
+        required: true,
+        enum: {
+            values: ['Chennai','Hyderabad'],
+            message: '{VALUE} is not a valid address'
+        }
     },
     phone:{
-        type: Number
+        type: Number,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true,
+        minLength: 5,
+        maxLength: 10
     }
 });
 
