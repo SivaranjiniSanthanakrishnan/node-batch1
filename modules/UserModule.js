@@ -35,7 +35,7 @@ const updateData = async (req,res,next) => {
 
 const deleteData = async (req,res,next) => {
     const id = req.params.id;
-    var response =  awaitUser.findByIdAndDelete(id);
+    var response =  await User.findByIdAndDelete(id);
     res.send(response);
 }
 
