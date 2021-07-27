@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Joi = require('joi')
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 
 exports.register = async (req,res,next) => {
     // User Input Validation - Joi Validation
@@ -18,7 +19,7 @@ exports.register = async (req,res,next) => {
 
     // Email already exists
     var existUser = await User.findOne({"email": req.body.email}).exec();
-    if(existUser) return res.status(400).send({msg : "Email already exists"})
+    if(existUser) return res.status(400).send({msg : "Email already exists"});
 
     // Create / register
     const salt = await bcrypt.genSalt(10);
@@ -54,6 +55,7 @@ exports.login = async (req,res,next) => {
     const isValid = await bcrypt.compare(req.body.password, existUser.password);
     if(!isValid) return res.status(400).send({msg: "Password doesn't match"});
 
-    // Login success
-    res.send("Login success")
+    // Generate Token
+    var token = jwt.sign({existUser}, 'SLA_SECRET', {expiresIn: '1hr'})
+    res.send(token);
 }
