@@ -1,7 +1,13 @@
 exports.connect = () => {
-    const mongoose = require('mongoose');
-    mongoose.connect('mongodb+srv://sivaranjini:12345Welcome@cluster0.sdfhf.mongodb.net/studentDB', {useNewUrlParser: true, useUnifiedTopology: true})
-    mongoose.set('useFindAndModify', false);
+    try {
+        const mongoose = require('mongoose');
+        mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true, useUnifiedTopology: true})
+        mongoose.set('useFindAndModify', false);
+    } catch(err) {
+        console.log(err)
+        process.exit()
+    }
+    
 }
 
 
